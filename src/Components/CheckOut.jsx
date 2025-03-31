@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GiConfirmed } from "react-icons/gi";
 const CheckOut = ({ service, onClose }) => {
   const [confirmed, setConfirmed] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      onClose();
-    }, 5000);
-  }, [confirmed]);
-
   return (
     <div className="fixed z-20 self-center justify-self-center inset-0 rounded-2xl flex flex-col justify-center items-center bg-white w-1/2 h-fit p-8">
       <button
@@ -20,7 +14,16 @@ const CheckOut = ({ service, onClose }) => {
       </button>
       <p className="text-xl font-bold mb-5">CheckOut</p>
       {!confirmed ? (
-        <form className="flex flex-col">
+        <form
+          className="flex flex-col"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setConfirmed(true);
+            setTimeout(() => {
+              onClose();
+            }, 5000);
+          }}
+        >
           <div className="flex gap-2">
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold mb-2">
@@ -71,10 +74,6 @@ const CheckOut = ({ service, onClose }) => {
           </div>
           <button
             type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              setConfirmed(true);
-            }}
             className="bg-pink-500 text-white py-2 px-4 rounded-md w-full hover:bg-pink-600 transition"
           >
             Confirm Check Out
